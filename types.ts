@@ -11,7 +11,6 @@ export interface AudioTrack {
 }
 
 export enum Page {
-  Subscription,
   Marketplace,
   Upload,
 }

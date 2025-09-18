@@ -5,16 +5,13 @@ type IconProps = React.SVGProps<SVGSVGElement>;
 
 export const SoundWaveIcon: React.FC<IconProps> = (props) => (
   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
-    <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 12h.008v.008h-.008V12zm3.75 0h.008v.008h-.008V12zm3.75 0h.008v.008h-.008V12zm3.75 0h.008v.008h-.008V12zm3.75 0h.008v.008h-.008V12z" />
+    <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v18m-4-14v10m-4-8v6m8-4v2m4-6v10m4-8v6" />
   </svg>
 );
 
 export const UploadCloudIcon: React.FC<IconProps> = (props) => (
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
       <path strokeLinecap="round" strokeLinejoin="round" d="M12 16.5V9.75m0 0l-3.75 3.75M12 9.75l3.75 3.75M17.25 12a4.5 4.5 0 01-9 0 4.5 4.5 0 019 0z" />
-      <path strokeLinecap="round" strokeLinejoin="round" d="M9 13.5l-3 3m0 0l-3-3m3 3V3" />
-      <path strokeLinecap="round" strokeLinejoin="round" d="M15 13.5l3 3m0 0l3-3m-3 3V3" />
-       <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 12.75v3.75m0 0H4.125M7.5 16.5h3.375m-3.375 0V15m3.375 1.5v-1.5m0 0h.008v.008H10.875v-.008zm0 0h.008v.008H10.875v-.008zM16.5 12.75v3.75m0 0H13.125m3.375 0V15m-3.375 1.5v-1.5m0 0h.008v.008H13.125v-.008zm0 0h.008v.008H13.125v-.008z" />
     </svg>
 );
 
@@ -45,5 +42,23 @@ export const ShoppingCartIcon: React.FC<IconProps> = (props) => (
 export const MusicNoteIcon: React.FC<IconProps> = (props) => (
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M9 9l10.5-3m0 6.5c0 1.25-1.007 2.25-2.25 2.25S15 13.75 15 12.5s1.007-2.25 2.25-2.25 2.25 1.007 2.25 2.25zM9 9V3l10.5 3M9 9v11.25a2.25 2.25 0 002.25 2.25 2.25 2.25 0 002.25-2.25V15m-4.5 6.75v-6.75" />
+    </svg>
+);
+
+export const LogOutIcon: React.FC<IconProps> = (props) => (
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
+    </svg>
+);
+
+export const PhotoIcon: React.FC<IconProps> = (props) => (
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+    </svg>
+);
+
+export const CurrencyDollarIcon: React.FC<IconProps> = (props) => (
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 11.21 12.768 11 12 11c-.768 0-1.536.21-2.121.659l-.879.659z" />
     </svg>
 );

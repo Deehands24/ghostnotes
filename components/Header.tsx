@@ -1,7 +1,7 @@
-
 import React from 'react';
 import { Page } from '../types';
-import { SoundWaveIcon, UploadCloudIcon } from './icons/Icons';
+import { SoundWaveIcon, UploadCloudIcon, LogOutIcon } from './icons/Icons';
+import { useAuth } from '../lib/AuthContext';
 
 interface HeaderProps {
   navigate: (page: Page) => void;
@@ -9,6 +9,8 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ navigate, currentPage }) => {
+  const { signOut } = useAuth();
+  
   const navItemClasses = (page: Page) => 
     `flex items-center space-x-2 px-4 py-2 rounded-md transition-colors duration-200 cursor-pointer ${
       currentPage === page 
@@ -21,7 +23,7 @@ const Header: React.FC<HeaderProps> = ({ navigate, currentPage }) => {
       <nav className="container mx-auto flex justify-between items-center p-4">
         <div className="flex items-center space-x-2 cursor-pointer" onClick={() => navigate(Page.Marketplace)}>
            <SoundWaveIcon className="w-8 h-8 text-teal-400"/>
-           <h1 className="text-2xl font-bold text-white">Audio Oasis</h1>
+           <h1 className="text-2xl font-bold text-white">Ghost Notes</h1>
         </div>
         <div className="flex items-center space-x-4">
           <button onClick={() => navigate(Page.Marketplace)} className={navItemClasses(Page.Marketplace)}>
@@ -31,6 +33,10 @@ const Header: React.FC<HeaderProps> = ({ navigate, currentPage }) => {
           <button onClick={() => navigate(Page.Upload)} className={navItemClasses(Page.Upload)}>
             <UploadCloudIcon className="w-5 h-5"/>
             <span>Upload</span>
+          </button>
+          <button onClick={signOut} className="flex items-center space-x-2 px-4 py-2 rounded-md transition-colors duration-200 text-gray-300 hover:bg-red-500/80 hover:text-white">
+            <LogOutIcon className="w-5 h-5"/>
+            <span>Sign Out</span>
           </button>
         </div>
       </nav>

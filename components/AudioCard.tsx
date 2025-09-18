@@ -1,4 +1,5 @@
 
+
 import React, { useRef, useEffect } from 'react';
 import { AudioTrack } from '../types';
 import { PlayIcon, PauseIcon, ShoppingCartIcon } from './icons/Icons';
@@ -7,9 +8,10 @@ interface AudioCardProps {
   track: AudioTrack;
   isPlaying: boolean;
   onPlayToggle: () => void;
+  onPurchase: () => void;
 }
 
-const AudioCard: React.FC<AudioCardProps> = ({ track, isPlaying, onPlayToggle }) => {
+const AudioCard: React.FC<AudioCardProps> = ({ track, isPlaying, onPlayToggle, onPurchase }) => {
   const audioRef = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
@@ -57,7 +59,11 @@ const AudioCard: React.FC<AudioCardProps> = ({ track, isPlaying, onPlayToggle })
         <p className="text-sm text-gray-400">{track.artist}</p>
         <div className="mt-4 flex justify-between items-center">
           <span className="text-xl font-bold text-teal-400">${track.price.toFixed(2)}</span>
-          <button className="flex items-center space-x-2 bg-gray-700 text-white px-3 py-1.5 rounded-md hover:bg-teal-600 transition-colors">
+          <button 
+            onClick={onPurchase}
+            className="flex items-center space-x-2 bg-gray-700 text-white px-3 py-1.5 rounded-md hover:bg-teal-600 transition-colors"
+            aria-label={`Buy ${track.title} for $${track.price.toFixed(2)}`}
+          >
             <ShoppingCartIcon className="w-5 h-5"/>
             <span>Buy</span>
           </button>

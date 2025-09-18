@@ -1,5 +1,5 @@
 {
-  "name": "Audio Oasis Marketplace",
-  "description": "A subscription-based online platform for buying and selling audio files, featuring a unique tool for creating 14-second audio samples during the upload process.",
+  "name": "Ghost Notes",
+  "description": "A subscription-based online platform for buying and selling audio files on Ghost Notes, featuring a unique tool for creating 14-second audio samples during the upload process.",
   "requestFramePermissions": []
 }

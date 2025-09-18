@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { SoundWaveIcon, LockIcon } from './icons/Icons';
 
@@ -13,7 +12,7 @@ const SubscriptionPage: React.FC<SubscriptionPageProps> = ({ onSubscribe }) => {
         <div className="flex justify-center">
             <SoundWaveIcon className="w-16 h-16 text-teal-400"/>
         </div>
-        <h1 className="text-4xl font-extrabold text-white">Welcome to Audio Oasis</h1>
+        <h1 className="text-4xl font-extrabold text-white">Welcome to Ghost Notes</h1>
         <p className="text-gray-300">
           The exclusive marketplace for high-quality audio files. Access requires an active subscription.
         </p>
@@ -23,7 +22,7 @@ const SubscriptionPage: React.FC<SubscriptionPageProps> = ({ onSubscribe }) => {
             className="flex items-center justify-center w-full px-6 py-3 text-lg font-semibold text-white bg-teal-600 rounded-lg hover:bg-teal-500 transition-transform transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-teal-500 shadow-lg"
           >
             <LockIcon className="w-6 h-6 mr-3" />
-            Join the Oasis (Simulate Subscription)
+            Join Ghost Notes (Simulate Subscription)
           </button>
           <p className="text-xs text-gray-500">This is a simulation. No payment required.</p>
         </div>
