@@ -20,11 +20,13 @@ export default function App() {
   useEffect(() => {
     // Immediately check for an existing session
     supabase.auth.getSession().then(({ data }) => {
+      console.log('getSession', data);
       setSession(data.session ?? null);
     });
 
     // Listen for changes in auth state (login/logout)
     const { data } = supabase.auth.onAuthStateChange((_event: string, session: Session | null) => {
+      console.log('onAuthStateChange', session);
       setSession(session ?? null);
     });
 
