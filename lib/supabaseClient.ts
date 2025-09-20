@@ -1,8 +1,14 @@
+// FIX: Add a triple-slash directive to include Vite's client types, which defines `import.meta.env`.
+/// <reference types="vite/client" />
+
 import { createClient } from '@supabase/supabase-js';
 
-// The Supabase project URL and public anon key are configured.
-// It is recommended to store these in environment variables for security.
-const supabaseUrl = 'https://rjtstwosfflemgqipkts.supabase.co';
-const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJqdHN0d29zZmZsZW1ncWlwa3RzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDgyNjgyMDcsImV4cCI6MjA2Mzg0NDIwN30.zpz7LrvKt2Bs1MOM8gs-5jHjlmYA6EeDW7M_N0PLRIM';
+// The Supabase project URL and public anon key are configured via environment variables.
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
+if (!supabaseUrl || !supabaseAnonKey) {
+  throw new Error("Supabase URL and Anon Key must be provided in environment variables.");
+}
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);

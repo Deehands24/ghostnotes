@@ -1,10 +1,12 @@
 import React, { createContext, useContext, useState, useEffect, PropsWithChildren, FC } from 'react';
-import { Session, User } from '@supabase/supabase-js';
+// FIX: Removed Session and User imports as they are not exported in older Supabase versions causing errors.
+// import { Session, User } from '@supabase/supabase-js';
 import { supabase } from './supabaseClient';
 
 interface AuthContextType {
-  session: Session | null;
-  user: User | null;
+  // FIX: Changed types to `any` as `Session` and `User` types could not be imported.
+  session: any | null;
+  user: any | null;
   signOut: () => void;
   loading: boolean;
 }
@@ -12,31 +14,31 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
-  const [session, setSession] = useState<Session | null>(null);
-  const [user, setUser] = useState<User | null>(null);
+  // FIX: Changed types to `any` for state variables.
+  const [session, setSession] = useState<any | null>(null);
+  const [user, setUser] = useState<any | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // FIX: Refactored to use Supabase v1 auth API.
+    // Fetched initial session synchronously with `supabase.auth.session()`.
+    const initialSession = supabase.auth.session();
+    setSession(initialSession);
+    setUser(initialSession?.user ?? null);
+    setLoading(false);
+
+    // Set up auth state change listener.
     const { data: authListener } = supabase.auth.onAuthStateChange(
       async (_event, session) => {
         setSession(session);
         setUser(session?.user ?? null);
-        setLoading(false);
       }
     );
 
-    // Get initial session
-    const getInitialSession = async () => {
-        const { data } = await supabase.auth.getSession();
-        setSession(data.session);
-        setUser(data.session?.user ?? null);
-        setLoading(false);
-    };
-    
-    getInitialSession();
-
     return () => {
-      authListener?.subscription.unsubscribe();
+      // FIX: Corrected the unsubscribe call for v1 API.
+      // `authListener` is the subscription itself.
+      authListener?.unsubscribe();
     };
   }, []);
 

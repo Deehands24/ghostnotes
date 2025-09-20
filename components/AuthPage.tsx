@@ -4,22 +4,39 @@ import { SoundWaveIcon } from './icons/Icons';
 
 const AuthPage: React.FC = () => {
   const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSignUp, setIsSignUp] = useState(false);
+  const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
+    setMessage(null);
     setLoading(true);
+
     try {
-      const { error } = await supabase.auth.signInWithOtp({
-        email: email,
-      });
-      if (error) throw error;
-      setIsSubmitted(true);
-    } catch (error: any) {
-      setError(error.error_description || error.message);
+      if (isSignUp) {
+        // Sign Up
+        const { error } = await supabase.auth.signUp({
+          email,
+          password,
+        });
+        if (error) throw error;
+        setMessage('Check your email to verify your account!');
+      } else {
+        // Sign In
+        // FIX: Replaced `signInWithPassword` (v2 API) with `signIn` (v1 API) to match the likely Supabase version.
+        const { error } = await supabase.auth.signIn({
+          email,
+          password,
+        });
+        if (error) throw error;
+        // Successful sign-in is handled by the onAuthStateChange listener in AuthContext
+      }
+    } catch (err: any) {
+      setError(err.error_description || err.message);
     } finally {
       setLoading(false);
     }
@@ -33,19 +50,19 @@ const AuthPage: React.FC = () => {
         </div>
         <h1 className="text-4xl font-extrabold text-white">Welcome to Ghost Notes</h1>
 
-        {isSubmitted ? (
+        {message ? (
           <div className="text-gray-300">
-            <h2 className="text-2xl font-semibold text-white">Check your email!</h2>
-            <p className="mt-2">
-              A magic link has been sent to <span className="font-bold text-teal-400">{email}</span>. Click the link to sign in.
-            </p>
+            <h2 className="text-2xl font-semibold text-white">Success!</h2>
+            <p className="mt-2 text-teal-400">{message}</p>
           </div>
         ) : (
           <>
             <p className="text-gray-300">
-              The exclusive marketplace for high-quality audio files. Sign in or create an account to continue.
+              {isSignUp
+                ? 'Create an account to get started.'
+                : 'Sign in to access the marketplace.'}
             </p>
-            <form onSubmit={handleLogin} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-6">
               <div>
                 <input
                   id="email"
@@ -60,6 +77,20 @@ const AuthPage: React.FC = () => {
                 />
               </div>
 
+              <div>
+                <input
+                  id="password"
+                  name="password"
+                  type="password"
+                  autoComplete={isSignUp ? 'new-password' : 'current-password'}
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full bg-gray-700 text-white p-3 rounded-md border border-gray-600 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none"
+                  placeholder="Enter your password"
+                />
+              </div>
+
               {error && <p className="text-sm text-red-400">{error}</p>}
 
               <div>
@@ -68,12 +99,22 @@ const AuthPage: React.FC = () => {
                   disabled={loading}
                   className="w-full px-6 py-3 text-lg font-semibold text-white bg-teal-600 rounded-lg hover:bg-teal-500 transition-transform transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-teal-500 shadow-lg disabled:bg-gray-500 disabled:cursor-not-allowed"
                 >
-                  {loading ? 'Sending...' : 'Continue with Email'}
+                  {loading ? 'Processing...' : isSignUp ? 'Sign Up' : 'Sign In'}
                 </button>
               </div>
             </form>
-            <p className="text-xs text-gray-500">
-              We use passwordless login. A magic link will be sent to your email.
+            <p className="text-sm text-gray-400">
+              {isSignUp ? 'Already have an account?' : "Don't have an account?"}{' '}
+              <button
+                onClick={() => {
+                  setIsSignUp(!isSignUp);
+                  setError(null);
+                  setMessage(null);
+                }}
+                className="font-medium text-teal-400 hover:text-teal-300"
+              >
+                {isSignUp ? 'Sign In' : 'Sign Up'}
+              </button>
             </p>
           </>
         )}
