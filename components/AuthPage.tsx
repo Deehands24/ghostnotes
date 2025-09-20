@@ -18,7 +18,7 @@ const AuthPage: React.FC = () => {
 
     try {
       if (isSignUp) {
-        // Sign Up
+        // Sign Up (Supabase v2)
         const { error } = await supabase.auth.signUp({
           email,
           password,
@@ -26,9 +26,8 @@ const AuthPage: React.FC = () => {
         if (error) throw error;
         setMessage('Check your email to verify your account!');
       } else {
-        // Sign In
-        // FIX: Replaced `signInWithPassword` (v2 API) with `signIn` (v1 API) to match the likely Supabase version.
-        const { error } = await supabase.auth.signIn({
+        // Sign In (Supabase v2)
+        const { error } = await supabase.auth.signInWithPassword({
           email,
           password,
         });

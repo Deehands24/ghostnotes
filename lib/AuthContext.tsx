@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, PropsWithChildren, FC } from 'react';
+import { createContext, useContext, useState, useEffect, PropsWithChildren, FC } from 'react';
 // FIX: Removed Session and User imports as they are not exported in older Supabase versions causing errors.
 // import { Session, User } from '@supabase/supabase-js';
 import { supabase } from './supabaseClient';
@@ -20,25 +20,27 @@ export const AuthProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // FIX: Refactored to use Supabase v1 auth API.
-    // Fetched initial session synchronously with `supabase.auth.session()`.
-    const initialSession = supabase.auth.session();
-    setSession(initialSession);
-    setUser(initialSession?.user ?? null);
-    setLoading(false);
+    // Use Supabase v2 API to fetch current session and listen for changes
+    let mounted = true;
 
-    // Set up auth state change listener.
-    const { data: authListener } = supabase.auth.onAuthStateChange(
-      async (_event, session) => {
-        setSession(session);
-        setUser(session?.user ?? null);
-      }
-    );
+    const fetchSession = async () => {
+      const { data } = await supabase.auth.getSession();
+      if (!mounted) return;
+      setSession(data?.session ?? null);
+      setUser(data?.session?.user ?? null);
+      setLoading(false);
+    };
+
+    fetchSession();
+
+    const { data } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session ?? null);
+      setUser(session?.user ?? null);
+    });
 
     return () => {
-      // FIX: Corrected the unsubscribe call for v1 API.
-      // `authListener` is the subscription itself.
-      authListener?.unsubscribe();
+      mounted = false;
+      if (data?.subscription) data.subscription.unsubscribe();
     };
   }, []);
 

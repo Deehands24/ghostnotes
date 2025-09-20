@@ -1,0 +1,11 @@
+/.vercel
+node_modules/
+dist/
+.env
+.DS_Store
+.vscode/
+
+# Optional lockfiles
+# yarn.lock
+# package-lock.json
+.vercel

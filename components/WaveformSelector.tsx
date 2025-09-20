@@ -17,7 +17,7 @@ const WaveformSelector: React.FC<WaveformSelectorProps> = ({ audioUrl, onSampleU
   const wavesurfer = useRef<any>(null);
   const regionRef = useRef<any>(null);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [duration, setDuration] = useState(0);
+  const [/* duration */, /* setDuration */] = useState(0);
   const [regionTimes, setRegionTimes] = useState({ start: 0, end: 0 });
   const [isLoading, setIsLoading] = useState(true);
 
@@ -51,7 +51,6 @@ const WaveformSelector: React.FC<WaveformSelectorProps> = ({ audioUrl, onSampleU
     const wsRegions = ws.registerPlugin(RegionsPlugin.create());
 
     ws.on('ready', (newDuration: number) => {
-      setDuration(newDuration);
       
       // Create a single draggable region
       const start = 0;
@@ -70,7 +69,7 @@ const WaveformSelector: React.FC<WaveformSelectorProps> = ({ audioUrl, onSampleU
       setIsLoading(false);
     });
 
-    let debounceTimer: number;
+  let debounceTimer: number | undefined;
     wsRegions.on('region-updated', (region: any) => {
         let start = region.start;
         let end = region.end;
@@ -84,7 +83,7 @@ const WaveformSelector: React.FC<WaveformSelectorProps> = ({ audioUrl, onSampleU
         
         // Debounce the update to parent to avoid excessive re-renders
         window.clearTimeout(debounceTimer);
-        debounceTimer = window.setTimeout(() => {
+    debounceTimer = window.setTimeout(() => {
             onSampleUpdate(newTimes.start, newTimes.end);
         }, 100);
     });
