@@ -1,0 +1,21 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true
+  },
+  "include": [
+    "src",
+    "components",
+    "lib",
+    "types.ts",
+    "index.tsx",
+    "App.tsx"
+  ],
+  "exclude": [
+    "vite.config.ts",
+    "vite.config.*.ts",
+    "**/*.config.ts",
+    "node_modules",
+    "dist"
+  ]
+}
