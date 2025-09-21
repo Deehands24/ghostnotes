@@ -1,10 +1,7 @@
 import { createContext, useContext, useState, useEffect, PropsWithChildren, FC } from 'react';
-// FIX: Removed Session and User imports as they are not exported in older Supabase versions causing errors.
-// import { Session, User } from '@supabase/supabase-js';
 import { supabase } from './supabaseClient';
 
 interface AuthContextType {
-  // FIX: Changed types to `any` as `Session` and `User` types could not be imported.
   session: any | null;
   user: any | null;
   signOut: () => void;
@@ -14,13 +11,11 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
-  // FIX: Changed types to `any` for state variables.
   const [session, setSession] = useState<any | null>(null);
   const [user, setUser] = useState<any | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Use Supabase v2 API to fetch current session and listen for changes
     let mounted = true;
 
     const fetchSession = async () => {

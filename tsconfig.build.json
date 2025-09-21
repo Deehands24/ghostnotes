@@ -5,11 +5,6 @@
   },
   "include": [
     "src",
-    "components",
-    "lib",
-    "types.ts",
-    "index.tsx",
-    "App.tsx"
   ],
   "exclude": [
     "vite.config.ts",

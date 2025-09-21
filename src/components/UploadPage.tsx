@@ -1,4 +1,3 @@
-
 import React, { useState, useCallback } from 'react';
 import WaveformSelector from './WaveformSelector';
 import { UploadCloudIcon, MusicNoteIcon, PhotoIcon, CurrencyDollarIcon } from './icons/Icons';
@@ -85,31 +84,31 @@ const UploadPage: React.FC = () => {
     setUploadSuccess(false);
 
     try {
-      // 1. Upload audio file
+      // Upload audio file
       const audioFilePath = `${user.id}/${Date.now()}_${audioFile.name}`;
       const { error: audioUploadError } = await supabase.storage
         .from('tracks')
         .upload(audioFilePath, audioFile);
       if (audioUploadError) throw new Error(`Audio upload failed: ${audioUploadError.message}`);
 
-      // 2. Get audio file public URL
+      // Get audio file public URL
       const { data: audioUrlData } = supabase.storage
         .from('tracks')
         .getPublicUrl(audioFilePath);
       
-      // 3. Upload cover art file
+      // Upload cover art file
       const coverArtPath = `${user.id}/${Date.now()}_${coverArtFile.name}`;
       const { error: coverArtUploadError } = await supabase.storage
         .from('cover_art')
         .upload(coverArtPath, coverArtFile);
       if (coverArtUploadError) throw new Error(`Cover art upload failed: ${coverArtUploadError.message}`);
 
-      // 4. Get cover art public URL
+      // Get cover art public URL
       const { data: coverArtUrlData } = supabase.storage
         .from('cover_art')
         .getPublicUrl(coverArtPath);
 
-      // 5. Insert track metadata into the database
+      // Insert track metadata into the database
       const { error: dbError } = await supabase
         .from('tracks')
         .insert({
@@ -161,15 +160,38 @@ const UploadPage: React.FC = () => {
 
       <form onSubmit={handleSubmit} className="bg-gray-800 p-8 rounded-lg shadow-2xl space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <input type="text" placeholder="Track Title" value={title} onChange={(e) => setTitle(e.target.value)} className={inputClass} required />
-          <input type="text" placeholder="Artist Name" value={artist} onChange={(e) => setArtist(e.target.value)} className={inputClass} required />
+          <input 
+            type="text" 
+            placeholder="Track Title" 
+            value={title} 
+            onChange={(e) => setTitle(e.target.value)} 
+            className={inputClass} 
+            required 
+          />
+          <input 
+            type="text" 
+            placeholder="Artist Name" 
+            value={artist} 
+            onChange={(e) => setArtist(e.target.value)} 
+            className={inputClass} 
+            required 
+          />
         </div>
 
         <div className="relative">
           <span className="absolute inset-y-0 left-0 flex items-center pl-3">
             <CurrencyDollarIcon className="w-5 h-5 text-gray-400" />
           </span>
-          <input type="number" placeholder="Price (e.g., 1.99)" value={price} onChange={(e) => setPrice(e.target.value === '' ? '' : parseFloat(e.target.value))} min="0" step="0.01" className={`${inputClass} pl-10`} required />
+          <input 
+            type="number" 
+            placeholder="Price (e.g., 1.99)" 
+            value={price} 
+            onChange={(e) => setPrice(e.target.value === '' ? '' : parseFloat(e.target.value))} 
+            min="0" 
+            step="0.01" 
+            className={`${inputClass} pl-10`} 
+            required 
+          />
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -182,7 +204,14 @@ const UploadPage: React.FC = () => {
                 <div className="flex text-sm text-gray-400">
                   <label htmlFor="audio-upload" className="relative cursor-pointer bg-gray-800 rounded-md font-medium text-teal-400 hover:text-teal-300 focus-within:outline-none">
                     <span>{audioFile ? 'Change file' : 'Upload a file'}</span>
-                    <input id="audio-upload" name="audio-upload" type="file" className="sr-only" onChange={handleAudioFileChange} accept="audio/*" />
+                    <input 
+                      id="audio-upload" 
+                      name="audio-upload" 
+                      type="file" 
+                      className="sr-only" 
+                      onChange={handleAudioFileChange} 
+                      accept="audio/*" 
+                    />
                   </label>
                   {!audioFile && <p className="pl-1">or drag and drop</p>}
                 </div>
@@ -205,7 +234,14 @@ const UploadPage: React.FC = () => {
                 <div className="flex text-sm text-gray-400">
                   <label htmlFor="cover-art-upload" className="relative cursor-pointer bg-gray-800 rounded-md font-medium text-teal-400 hover:text-teal-300 focus-within:outline-none">
                      <span>{coverArtFile ? 'Change image' : 'Upload an image'}</span>
-                    <input id="cover-art-upload" name="cover-art-upload" type="file" className="sr-only" onChange={handleCoverArtFileChange} accept="image/*" />
+                    <input 
+                      id="cover-art-upload" 
+                      name="cover-art-upload" 
+                      type="file" 
+                      className="sr-only" 
+                      onChange={handleCoverArtFileChange} 
+                      accept="image/*" 
+                    />
                   </label>
                    {!coverArtFile && <p className="pl-1">or drag and drop</p>}
                 </div>
@@ -224,7 +260,11 @@ const UploadPage: React.FC = () => {
         )}
         
         <div className="text-right">
-          <button type="submit" disabled={isSubmitting || !sample} className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-teal-500 disabled:bg-gray-500 disabled:cursor-not-allowed">
+          <button 
+            type="submit" 
+            disabled={isSubmitting || !sample} 
+            className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-teal-500 disabled:bg-gray-500 disabled:cursor-not-allowed"
+          >
             <UploadCloudIcon className="w-5 h-5 mr-2" />
             {isSubmitting ? 'Submitting...' : 'Submit Track'}
           </button>
