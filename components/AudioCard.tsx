@@ -1,3 +1,5 @@
+
+
 import React, { useRef, useEffect, useState } from 'react';
 import { AudioTrack } from '../types';
 import { PlayIcon, PauseIcon, ShoppingCartIcon } from './icons/Icons';
@@ -19,7 +21,7 @@ const AudioCard: React.FC<AudioCardProps> = ({ track, isPlaying, onPlayToggle, o
 
     const handleTimeUpdate = () => {
       if (audio.currentTime >= track.sampleEnd) {
-        onPlayToggle();
+        onPlayToggle(); // Triggers effect to run again with isPlaying = false
       } else {
         setCurrentTime(audio.currentTime);
       }
@@ -33,7 +35,7 @@ const AudioCard: React.FC<AudioCardProps> = ({ track, isPlaying, onPlayToggle, o
     } else {
       audio.pause();
       audio.currentTime = track.sampleStart;
-      setCurrentTime(track.sampleStart);
+      setCurrentTime(track.sampleStart); // Also reset state for UI consistency
     }
     
     return () => {
@@ -51,7 +53,7 @@ const AudioCard: React.FC<AudioCardProps> = ({ track, isPlaying, onPlayToggle, o
   
   return (
     <div className="bg-gray-800 rounded-lg overflow-hidden shadow-lg transform transition-all duration-300 hover:scale-105 hover:shadow-teal-500/20 group">
-      <audio ref={audioRef} src={track.audioUrl} preload="metadata" />
+      <audio ref={audioRef} src={track.audioUrl} preload="metadata"></audio>
       <div className="relative">
         <img src={track.coverArt} alt={track.title} className="w-full h-48 object-cover" />
         <div className="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -60,7 +62,7 @@ const AudioCard: React.FC<AudioCardProps> = ({ track, isPlaying, onPlayToggle, o
             className="w-16 h-16 bg-teal-500/80 rounded-full flex items-center justify-center text-white hover:bg-teal-500 transition-transform transform hover:scale-110"
             aria-label={isPlaying ? 'Pause sample' : 'Play sample'}
           >
-            {isPlaying ? <PauseIcon className="w-8 h-8" /> : <PlayIcon className="w-8 h-8" />}
+            {isPlaying ? <PauseIcon className="w-8 h-8"/> : <PlayIcon className="w-8 h-8"/>}
           </button>
         </div>
         {isPlaying && (
@@ -81,7 +83,7 @@ const AudioCard: React.FC<AudioCardProps> = ({ track, isPlaying, onPlayToggle, o
             className="flex items-center space-x-2 bg-gray-700 text-white px-3 py-1.5 rounded-md hover:bg-teal-600 transition-colors"
             aria-label={`Buy ${track.title} for $${track.price.toFixed(2)}`}
           >
-            <ShoppingCartIcon className="w-5 h-5" />
+            <ShoppingCartIcon className="w-5 h-5"/>
             <span>Buy</span>
           </button>
         </div>
